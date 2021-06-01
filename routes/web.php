@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,25 +15,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('posts');
+    $posts = Post::allPosts();
+
+    return view('posts', ['posts' => $posts ]);
 });
 
-// ** Wildcard {}
+// ** Wildcard {} === function( wildcard ) // {post} === $slug
 Route::get('posts/{post}', function ($slug) {
     // Find a post by its slug and pass it to a view called "post"
-
-    // Validate if the path exist
-    if ( ! file_exists($path = __DIR__ . "/../resources/posts/{$slug}.html") ) {
-        // return redirect('/');
-        abort(404);
-    }
-
-    // ** Use Caching  with unique key + how long to cache (in sec) + function
-    // helper function for time now()->addMinutes(20) 
-    // arrow function: fn() => file_get_contents($path)
-    $post = cache()->remember("post.{$slug}", 5, function() use($path) {
-        return file_get_contents($path);
-    });
-
-    return view('post', ['post' => $post]);
+    return view('post', ['post' => Post::find($slug) ]);
 })->where('post', '[A-z_\-]+');
+
+// ->where() is to have the route control with RegEx.. 
+// e.g.
+// ->whereAlpha('post')
+// ->whereNumeric('post')
+// ->whereAlphaNumeric('post')
