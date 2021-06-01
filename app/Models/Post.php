@@ -30,16 +30,21 @@ class Post extends Model
 
     public static function allPosts() {
 
-        // ** Laravel's Collect function 
-        return collect(File::files(resource_path("posts")))
-            ->map(fn($file) => YamlFrontMatter::parseFile($file))        
-            ->map(fn($document) => new Post(
-                    $document->title, 
-                    $document->date, 
-                    $document->excerpt, 
-                    $document->body(),
-                    $document->slug
-                ));
+        return cache()->rememberForever('posts.all', function() {
+            // ** Laravel's Collect function 
+            return collect(File::files(resource_path("posts")))
+                ->map(fn($file) => YamlFrontMatter::parseFile($file))        
+                ->map(fn($document) => new Post(
+                        $document->title, 
+                        $document->date, 
+                        $document->excerpt, 
+                        $document->body(),
+                        $document->slug
+                    ))
+                // sort by date
+                ->sortByDesc('date');
+        });
+
 
         // ** array_map is exactly same as Laravel's Helper Function -- collection
         // $posts = array_map(function ($file) {
