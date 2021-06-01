@@ -63,7 +63,6 @@ class Post extends Model
     public static function find($slug) {
 
         // of all the blog posts, find the one with a slug that matches the one that was required
-
         return static::allPosts()->firstWhere('slug', $slug);
 
         // // Validate if the path exist
@@ -79,5 +78,15 @@ class Post extends Model
         //     return file_get_contents($path);
         // });
 
+    }
+    
+    public static function findOrFail($slug) {
+        $post = static::find($slug);
+
+        if (! $post ) {
+            throw new ModelNotFoundException();
+        }
+
+        return $post;
     }
 } 

@@ -23,8 +23,8 @@ Route::get('/', function () {
 // ** Wildcard {} === function( wildcard ) // {post} === $slug
 Route::get('posts/{post}', function ($slug) {
     // Find a post by its slug and pass it to a view called "post"
-    return view('post', ['post' => Post::find($slug) ]);
-})->where('post', '[A-z_\-]+');
+    return view('post', ['post' => Post::findOrFail($slug) ]);
+});
 
 // ->where() is to have the route control with RegEx.. 
 // e.g.
