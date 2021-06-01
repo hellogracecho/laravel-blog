@@ -10,8 +10,10 @@
 <body>
     <article>
         <a href="/">Go back to home</a>
-        <h1><?= $post->title; ?></h1>
-        <div><?= $post->body; ?></div>
+        <h1>{{ $post->title }}</h1>
+        <div>
+            {!! $post->body !!}
+        </div>
     </article>
 </body>
 </html>
