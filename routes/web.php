@@ -20,11 +20,17 @@ Route::get('/', function () {
     return view('posts', ['posts' => $posts ]);
 });
 
-// ** Wildcard {} === function( wildcard ) // {post} === $id
-Route::get('posts/{post}', function ($id) {
-    // Find a post by its id and pass it to a view called "post"
-    return view('post', ['post' => Post::findOrFail($id) ]);
+// ** Laravel: Route Model Binding does the same job as below.. Wildcard{} should match the variable
+Route::get('posts/{post:slug}', function (Post $post) {
+    // Post::where('slug',$post)->firstOrFail()
+    return view('post', ['post' => $post ]);
 });
+
+// ** Wildcard {} === function( wildcard ) // {post} === $id
+// Route::get('posts/{post}', function ($id) {
+//     // Find a post by its id and pass it to a view called "post"
+//     return view('post', ['post' => Post::findOrFail($id) ]);
+// });
 
 // ->where() is to have the route control with RegEx.. 
 // e.g.

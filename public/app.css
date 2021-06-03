@@ -12,3 +12,7 @@ article + article {
     margin-top: 2rem;
     border-top: 1px solid #212121;
 }
+
+p {
+    line-height: 1.8;
+}
