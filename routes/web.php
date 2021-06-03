@@ -15,15 +15,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $posts = Post::allPosts();
+    $posts = Post::all();
 
     return view('posts', ['posts' => $posts ]);
 });
 
-// ** Wildcard {} === function( wildcard ) // {post} === $slug
-Route::get('posts/{post}', function ($slug) {
-    // Find a post by its slug and pass it to a view called "post"
-    return view('post', ['post' => Post::findOrFail($slug) ]);
+// ** Wildcard {} === function( wildcard ) // {post} === $id
+Route::get('posts/{post}', function ($id) {
+    // Find a post by its id and pass it to a view called "post"
+    return view('post', ['post' => Post::findOrFail($id) ]);
 });
 
 // ->where() is to have the route control with RegEx.. 
