@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('posts', [
-    'posts' => Post::latest()->get()
+    'posts' => Post::latest()->get(),
+    'categories' => Category::all()
     ]);
 });
 
@@ -26,7 +27,8 @@ Route::get('/', function () {
 Route::get('posts/{post:slug}', function (Post $post) {
     // Post::where('slug',$post)->firstOrFail()
     return view('post', [
-        'post' => $post 
+        'post' => $post,
+        'categories' => Category::all()
         ]);
 });
 
@@ -45,12 +47,14 @@ Route::get('posts/{post:slug}', function (Post $post) {
 // * Route model binding with :slug
 Route::get('categories/{category:slug}', function (Category $category) {
     return view('posts', [
-        'posts' => $category->posts
+        'posts' => $category->posts,
+        'categories' => Category::all()
         ]);
 });
 
 Route::get('authors/{author:username}', function (User $author) {
     return view('posts', [
-        'posts' => $author->posts
+        'posts' => $author->posts,
+        'categories' => Category::all()
         ]);
 });
