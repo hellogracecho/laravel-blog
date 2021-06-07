@@ -21,7 +21,7 @@ Route::get('/', function () {
     'posts' => Post::latest()->get(),
     'categories' => Category::all()
     ]);
-});
+})->name('myhome');
 
 // ** Laravel: Route Model Binding does the same job as below.. Wildcard{} should match the variable
 Route::get('posts/{post:slug}', function (Post $post) {
@@ -48,7 +48,8 @@ Route::get('posts/{post:slug}', function (Post $post) {
 Route::get('categories/{category:slug}', function (Category $category) {
     return view('posts', [
         'posts' => $category->posts,
-        'categories' => Category::all()
+        'categories' => Category::all(),
+        'currentCategory' => $category
         ]);
 });
 
